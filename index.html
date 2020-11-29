@@ -5,52 +5,55 @@
     <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
     <title>Player</title>
     <link href="https://vjs.zencdn.net/7.3.0/video-js.css" rel="stylesheet" />
-    <style type="text/css">
+    <style>
       body {
-        margin: 0;
-        padding: 0;
+        padding: 0px;
+        margin: 0px;
       }
-      .video-js .vjs-current-time {
-        display: block;
+      .video-js.vjs-fluid,
+      .video-js.vjs-16-9,
+      .video-js.vjs-4-3,
+      video.video-js,
+      video.vjs-tech {
+        max-height: calc(100vh - 20px);
+        position: relative !important;
+        width: 100%;
+        height: auto !important;
+        max-width: 100% !important;
+        padding-top: 0 !important;
+        line-height: 0;
       }
-      .video-js .vjs-duration,
-      .vjs-no-flex .vjs-duration {
-        display: block;
-      }
-      .vjs-live .vjs-duration {
-        display: none !important;
-      }
-      .vjs-play-progress {
-        display: none !important;
-      }
-      .vjs-live .vjs-current-time {
-        display: none !important;
+
+      /* Fix the control bar due to us resetting the line-height on the video-js */
+      .vjs-control-bar {
+        line-height: 1;
       }
     </style>
   </head>
+  <video
+    id="video"
+    class="embed-responsive-item video-js vjs-16-9 vjs-default-skin vjs-big-play-centered"
+    preload="auto"
+    controls
+  ></video>
+  <!-- <div style="width: 70%; margin: auto">
+  </div> -->
+  <script src="https://vjs.zencdn.net/7.3.0/video.js"></script>
+  <script src="js/hls.min.js?v=v0.9.1"></script>
+  <script src="js/vjs-quality-picker.js?v=v0.0.2"></script>
+  <script>
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
 
-  <body style="display: block">
-    <video
-      id="video"
-      class="embed-responsive-item video-js vjs-default-skin"
-      data-setup='{"fluid": true}'
-      width="720"
-      height="1080"
-      controls
-    ></video>
-    <script src="https://vjs.zencdn.net/7.3.0/video.js"></script>
-    <script src="js/hls.min.js?v=v0.9.1"></script>
-    <script src="js/vjs-quality-picker.js?v=v0.0.2"></script>
-    <script>
-      var player = videojs("video")
-      player.qualityPickerPlugin()
-      const source = "" || "https://mwafa.github.io/hls/sample/master.m3u8"
-      player.src({
-        src: source,
-        type: "application/x-mpegURL",
-      })
-
-      player.play()
-    </script>
-  </body>
+    var player = videojs("video", {
+      poster: urlParams.get("poster") || "https://picsum.photos/200/300/?blur",
+    })
+    player.qualityPickerPlugin()
+    const src =
+      urlParams.get("url") || "https://mwafa.github.io/hls/sample/master.m3u8"
+    player.src({
+      src,
+      type: "application/x-mpegURL",
+    })
+  </script>
 </html>
