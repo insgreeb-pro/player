@@ -4,6 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HLS Player Demo</title>
+    <style>
+      input {
+        margin-bottom: 10px;
+        font-size: 1.2em;
+        width: 100%;
+        border: solid 1px #aaaaaa;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .code {
+        white-space: pre;
+        font-family: monospace;
+        overflow-x: auto;
+      }
+    </style>
   </head>
   <body>
     <div>
@@ -12,13 +27,49 @@
       </div>
       <!-- <iframe src="index.html" seamless="seamless" /> -->
       <div style="max-width: 600px; margin: auto">
-        <iframe
-          style="width: 100%; min-height: 50vh"
-          src="https://insgreeb-pro.github.io/player/index.html?url=https://mwafa.github.io/hls/sample/master.m3u8&poster=https://source.unsplash.com/1600x900/"
-          seamless="seamless"
-          frameborder="0"
-        ></iframe>
+        <form id="form" action="">
+          <label for="">URL</label>
+          <input
+            name="url"
+            id="url"
+            type="text"
+            value="https://mwafa.github.io/hls/sample/master.m3u8"
+          />
+          <label for="">Poster</label>
+          <input
+            name="poster"
+            id="poster"
+            type="text"
+            value="https://source.unsplash.com/1600x900/"
+          />
+          <input type="submit" value="Update" />
+        </form>
+        <h4>Code:</h4>
+        <pre id="code" class="code"></pre>
+        <h4>Output:</h4>
+        <div id="rendered"></div>
       </div>
     </div>
   </body>
+  <script>
+    function updateIframe(e) {
+      if (e.preventDefault) e.preventDefault()
+      const url = encodeURIComponent(document.getElementById("url").value)
+      const poster = encodeURIComponent(document.getElementById("poster").value)
+      const text = `
+<iframe style="width: 100%; min-height: 50vh"
+src="https://insgreeb-pro.github.io/player/index.html?url=${url}&poster=${poster}
+seamless="seamless"
+frameborder="0"
+></iframe>`
+      const code = document.getElementById("code")
+      const rendered = document.getElementById("rendered")
+      code.innerText = text
+      rendered.innerHTML = text
+    }
+    window.onload = () => {
+      document.getElementById("form").addEventListener("submit", updateIframe)
+      updateIframe("")
+    }
+  </script>
 </html>
