@@ -57,11 +57,16 @@
       const url = encodeURIComponent(document.getElementById("url").value)
       const poster = encodeURIComponent(document.getElementById("poster").value)
       const text = `
-<iframe style="width: 100%; min-height: 50vh"
+<div style="position:relative;width:100%;padding-top: 61%">
+<div style="position:absolute;top:0;left:0;right:0;bottom:0;">
+<iframe width="100%" height="100%"
 src="https://insgreeb-pro.github.io/player/index.html?url=${url}&poster=${poster}
 seamless="seamless"
 frameborder="0"
-></iframe>`
+></iframe>
+</div>
+</div>
+`
       const code = document.getElementById("code")
       const rendered = document.getElementById("rendered")
       code.innerText = text
